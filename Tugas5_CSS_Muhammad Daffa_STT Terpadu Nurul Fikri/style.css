@@ -1,0 +1,51 @@
+/* Reset agar layout rapi */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #fafafa;
+}
+
+/* Bagian header, nav, footer */
+.header, .nav, .footer {
+    background-color: #f1f1f1;
+    border: 1px solid #333;
+    padding: 20px;
+    margin: 5px;
+}
+
+/* Kontainer isi tengah */
+.content-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch; /* supaya kolom sama tinggi */
+    margin: 5px;
+}
+
+/* Sidebar kiri & kanan */
+.sidebar {
+    flex: 1;
+    border: 1px solid #333;
+    padding: 20px;
+    margin: 5px;
+    background-color: #f9f9f9;
+}
+
+/* Konten utama */
+.main {
+    flex: 2;
+    border: 1px solid #333;
+    padding: 20px;
+    margin: 5px;
+    background-color: #fff;
+}
+
+/* Footer */
+.footer {
+    margin-top: 5px;
+}

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website RWD Bootstrap</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Header / Carousel -->
+  <header>
+    <div id="carouselHeader" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="https://nurulfikri.ac.id/wp-content/uploads/slider/cache/b9cdbba1a0e7c5c45cc35ca06eaebf93/Banner-Web-1-scaled.webp" class="d-block w-100 banner-img" alt="Banner 1">
+        </div>
+        <div class="carousel-item">
+          <img src="https://depoktalks.com/wp-content/uploads/2024/12/pasted-image-0.jpg" class="d-block w-100 banner-img" alt="Banner 2">
+        </div>
+        <div class="carousel-item">
+          <img src="https://nurulfikri.ac.id/wp-content/uploads/2025/04/IMG0002-scaled.jpg" class="d-block w-100 banner-img" alt="Banner 3">
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselHeader" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselHeader" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Navigation Menu -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold" href="#">
+        <img src="https://nfacademy.id/wp-content/uploads/2024/01/logo-NF-Academy-02_single.png"
+        alt="Logo" height="50" class="rounded me-2"> NF Academy
+
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="home.html" target="main-content">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="study.html" target="main-content">MyStudy</a></li>
+          <li class="nav-item"><a class="nav-link" href="gallery.html" target="main-content">Gallery</a></li>
+          <li class="nav-item"><a class="nav-link" href="datatables.html" target="main-content">Datatable</a></li>
+          <li class="nav-item"><a class="nav-link" href="login.html" target="main-content">Login</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Content Layout -->
+  <div class="container-fluid mt-4">
+    <div class="row">
+      <!-- Sidebar Content -->
+      <aside class="col-md-3 mb-3">
+        <div class="card shadow-sm border-0 rounded-3">
+          <div class="card-header bg-primary text-white fw-bold">Referensi Belajar</div>
+          <div class="list-group list-group-flush">
+            <a href="https://nfacademy.id" class="list-group-item list-group-item-action" target="_blank">NF Academy</a>
+            <a href="https://nurulfikri.ac.id" class="list-group-item list-group-item-action" target="_blank">STT Nurul Fikri</a>
+            <a href="https://www.w3schools.com/" class="list-group-item list-group-item-action" target="_blank">W3Schools</a>
+            <a href="https://getbootstrap.com/" class="list-group-item list-group-item-action" target="_blank">Bootstrap</a>
+            <a href="https://www.php.net/" class="list-group-item list-group-item-action" target="_blank">PHP</a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="col-md-9">
+        <div class="card shadow-sm border-0 rounded-3">
+          <div class="card-body">
+            <iframe name="main-content" src="home.html" width="100%" height="500px" style="border:none;"></iframe>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-primary text-white text-center p-3 mt-4 shadow-sm">
+    <p class="mb-1">© 2025 | Dibuat oleh <strong>Muhammad Daffa</strong></p>
+    <div>
+      <a href="https://facebook.com" target="_blank" class="text-white me-3 social-link">
+        <i class="bi bi-facebook"></i>
+      </a>
+      <a href="https://twitter.com" target="_blank" class="text-white me-3 social-link">
+        <i class="bi bi-twitter"></i>
+      </a>
+      <a href="https://instagram.com" target="_blank" class="text-white social-link">
+        <i class="bi bi-instagram"></i>
+      </a>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

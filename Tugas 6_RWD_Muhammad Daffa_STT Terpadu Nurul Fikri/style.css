@@ -1,0 +1,47 @@
+/* Banner agar elegan */
+.banner-img {
+  object-fit: cover;
+  height: 350px;
+  filter: brightness(90%);
+}
+
+/* Navbar */
+.navbar-brand {
+  font-size: 1.2rem;
+}
+.nav-link {
+  color: #fff !important;
+  transition: 0.3s;
+}
+.nav-link:hover {
+  color: #ffd700 !important;
+}
+/* Biar carousel full screen */
+.carousel,
+.carousel-inner,
+.carousel-item,
+.carousel-item img {
+  height: 100vh;          /* penuh tinggi layar */
+  object-fit: cover;      /* gambar tidak gepeng, crop rapih */
+}
+
+
+/* Sidebar */
+.list-group-item {
+  transition: 0.3s;
+}
+.list-group-item:hover {
+  background: #f8f9fa;
+  transform: translateX(5px);
+}
+
+/* Footer */
+footer .social-link {
+  font-size: 1.3rem;
+  transition: 0.3s;
+}
+footer .social-link:hover {
+  color: #ffd700;
+  transform: scale(1.2);
+}
+

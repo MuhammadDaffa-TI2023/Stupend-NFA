@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Datatables</title>
+  <link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+</head>
+<body class="p-3">
+  <h2>Data Table</h2>
+  <table id="example" class="display" style="width:100%">
+    <thead>
+      <tr>
+        <th>Nama</th>
+        <th>Umur</th>
+        <th>Jurusan</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Ahmad</td><td>21</td><td>Informatika</td></tr>
+      <tr><td>Budi</td><td>22</td><td>Sistem Informasi</td></tr>
+      <tr><td>Citra</td><td>20</td><td>Teknik Komputer</td></tr>
+      <tr><td>Dewi</td><td>23</td><td>Informatika</td></tr>
+      <tr><td>Eka</td><td>21</td><td>Sistem Informasi</td></tr>
+    </tbody>
+  </table>
+
+  <script>
+    $(document).ready(function () {
+        $('#example').DataTable();
+    });
+  </script>
+</body>
+</html>

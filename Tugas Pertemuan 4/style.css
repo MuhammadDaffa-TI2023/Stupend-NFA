@@ -1,0 +1,332 @@
+
+body {
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #f0f9ff, #fefefe);
+    color: #333;
+}
+
+/* Main Content */
+.main-content {
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.main-content h2 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.main-content p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+/* Card Container */
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+}
+
+/* Card */
+.card {
+    width: 250px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0px 6px 16px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0px 12px 24px rgba(0,0,0,0.25);
+}
+
+/* Card Image */
+.card img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 15px;
+}
+
+/* Card Heading */
+.card h3 {
+    color: #4CAF50;
+    margin-bottom: 10px;
+}
+
+/* Card Text */
+.card p {
+    color: #555;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+
+/* Heading */
+h1, h2, h3 {
+    color: #2c3e50;
+    margin: 15px 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Link */
+a {
+    color: #4CAF50;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    color: #ff9800;
+    text-decoration: underline;
+}
+
+/*Header*/
+body[bgcolor="#4CAF50"] {
+    background: linear-gradient(90deg, #4CAF50, #2e7d32) !important;
+    color: white;
+    text-align: center;
+    padding: 25px 10px;
+    box-shadow: 0px 3px 8px rgba(0,0,0,0.2);
+}
+
+marquee {
+    font-weight: bold;
+    color: #ffeb3b;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+/*Navigasi*/
+body[bgcolor="#333"] {
+    background: linear-gradient(90deg, #333, #222) !important;
+    text-align: center;
+    padding: 15px;
+    box-shadow: 0px 2px 6px rgba(0,0,0,0.3);
+}
+
+body[bgcolor="#333"] a {
+    color: white;
+    margin: 0 20px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+body[bgcolor="#333"] a:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/*Sidebar*/
+fieldset {
+    border: 2px solid #4CAF50;
+    border-radius: 12px;
+    padding: 15px;
+    margin: 15px;
+    background: linear-gradient(135deg, #ffffff, #f1fff6);
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+fieldset:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 6px 15px rgba(0,0,0,0.15);
+}
+
+legend {
+    font-weight: bold;
+    color: #4CAF50;
+    padding: 0 8px;
+    font-size: 16px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+/* List + ikon rapi */
+ol {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+ol li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    font-size: 15px;
+    transition: transform 0.2s ease;
+}
+
+ol li:hover {
+    transform: translateX(5px);
+}
+
+ol li img,
+ol li i {
+    width: 22px;
+    height: 22px;
+}
+
+/* Main content*/
+.home-page {
+    text-align: center;
+    padding: 20px;
+}
+
+.home-page img {
+    border-radius: 12px;
+    margin-top: 15px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+}
+
+.home-page img:hover {
+    transform: scale(1.08);
+    box-shadow: 0px 6px 16px rgba(0,0,0,0.3);
+}
+
+/* study */
+table {
+    border-collapse: collapse;
+    width: 85%;
+    margin: 25px auto;
+    text-align: center;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+}
+
+table th {
+    background: linear-gradient(90deg, #4CAF50, #2e7d32);
+    color: white;
+    padding: 12px;
+    font-size: 15px;
+}
+
+table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tr:hover {
+    background-color: #e8f5e9;
+}
+/* Profile Card */
+.profile-card {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 25px;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #ffffff, #f1fff6);
+    box-shadow: 0px 8px 20px rgba(0,0,0,0.15);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0px 12px 28px rgba(0,0,0,0.25);
+}
+
+/* Foto Profil */
+.profile-card img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    border: 4px solid #4CAF50;
+    object-fit: cover;
+}
+.skills {
+    margin-top: 15px;
+}
+
+.skills img {
+    width: 35px;
+    height: 35px;
+    margin: 0 6px;
+    vertical-align: middle;
+    transition: transform 0.3s ease;
+}
+
+.skills img:hover {
+    transform: scale(1.2);
+}
+
+/* Nama */
+.profile-card h2 {
+    margin: 10px 0;
+    font-size: 22px;
+    color: #2c3e50;
+}
+
+/* Deskripsi */
+.profile-card p {
+    font-size: 15px;
+    margin: 8px 0;
+    color: #555;
+}
+
+
+
+/* Gallery*/
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.gallery img {
+    width: 250px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: transform 0.4s ease, box-shadow 0.4s ease, filter 0.4s ease;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+}
+
+
+.gallery img:hover {
+    transform: scale(1.15) rotate(2deg);
+    box-shadow: 0px 10px 25px rgba(0,0,0,0.3);
+    filter: brightness(1.1);
+}
+
+.gallery img {
+    animation: fadeIn 0.8s ease-in-out;
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/*Footer*/
+body[bgcolor="lightgreen"] {
+    background: linear-gradient(90deg, #4CAF50, #2e7d32) !important;
+    color: white;
+    text-align: center;
+    padding: 18px;
+    font-size: 14px;
+    box-shadow: 0px -2px 8px rgba(0,0,0,0.2);
+}

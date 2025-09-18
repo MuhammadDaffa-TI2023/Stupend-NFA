@@ -1,124 +1,78 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Tugas: Parameter Sisi / Panjang / Tinggi (1 file)</title>
-  <style>
-    body{font-family:Arial;margin:24px;background:#f7fafc;color:#111}
-    .card{background:#fff;padding:18px;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,0.06);max-width:760px;margin:auto}
-    label{display:block;margin:8px 0 4px}
-    input[type=number]{width:120px;padding:6px;border-radius:6px;border:1px solid #ccd}
-    button{margin-top:12px;padding:8px 12px;border-radius:8px;border:none;cursor:pointer}
-    pre{background:#0f172a;color:#e6eef8;padding:12px;border-radius:8px;overflow:auto}
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tugas: Parameter Sisi / Panjang / Tinggi</title>
 </head>
 <body>
-  <div class="card">
-    <h1>Tugas: Parameter (sisi, panjang, tinggi)</h1>
+  <h1>Tugas: Parameter (sisi, panjang, tinggi)</h1>
 
-    <div>
-      <label for="sisi">Sisi</label>
-      <input id="sisi" type="number" step="any" placeholder="contoh: 5" />
+  <!-- Input nilai -->
+  <label>Sisi <input id="sisi" type="number" placeholder="contoh: 5"></label><br>
+  <label>Panjang <input id="panjang" type="number" placeholder="contoh: 10"></label><br>
+  <label>Tinggi <input id="tinggi" type="number" placeholder="contoh: 8"></label><br><br>
 
-      <label for="panjang">Panjang</label>
-      <input id="panjang" type="number" step="any" placeholder="contoh: 10" />
+  <!-- Tombol  -->
+  <button id="hitung">Hitung Semua</button>
+  <button id="reset">Reset</button>
 
-      <label for="tinggi">Tinggi</label>
-      <input id="tinggi" type="number" step="any" placeholder="contoh: 8" />
-
-      <div style="margin-top:12px">
-        <button id="hitung">Hitung Semua</button>
-        <button id="reset" style="margin-left:8px">Reset</button>
-      </div>
-    </div>
-
-    <h2>Hasil</h2>
-    <div id="hasil">
-      <pre id="out">Belum dihitung. Klik "Hitung Semua".</pre>
-    </div>
-  </div>
+  <h2>Hasil</h2>
+  <pre id="out">Belum dihitung. Klik "Hitung Semua".</pre>
 
   <script>
-    // Ubah string ke number atau null jika tidak valid
-    function toNumberOrNull(v) {
-      const n = Number(v);
-      return Number.isFinite(n) ? n : null;
-    }
+    // Fungsi HTML 
+    const el = id => document.getElementById(id);
 
-    // Luas persegi = sisi * sisi
-    function areaSquare(sisi) {
-      if (sisi == null) throw new Error('Sisi tidak valid');
-      return sisi * sisi;
-    }
+    // input & output
+    const sisi   = el("sisi");
+    const panjang = el("panjang");
+    const tinggi = el("tinggi");
+    const out   = el("out");
 
-    // Keliling persegi = 4 * sisi
-    function perimeterSquare(sisi) {
-      if (sisi == null) throw new Error('Sisi tidak valid');
-      return 4 * sisi;
-    }
+    //tombol Hitung Semua
+    el("hitung").onclick = () => {
+      // Ambil nilai input dan ubah ke number, jika kosong jadikan null
+      const s = +sisi.value || null;
+      const p = +panjang.value || null;
+      const t = +tinggi.value || null;
 
-    // Luas persegi panjang = panjang * lebar
-    function areaRectangle(panjang, lebar) {
-      if (panjang == null || lebar == null) throw new Error('Panjang/lebarnya tidak valid');
-      return panjang * lebar;
-    }
+      // Array 
+      let hasil = [];
 
-    // Volume balok = panjang * lebar * tinggi
-    function volumeRectPrism(panjang, lebar, tinggi) {
-      if (panjang == null || lebar == null || tinggi == null) throw new Error('Data tidak lengkap');
-      return panjang * lebar * tinggi;
-    }
-
-    // Ambil elemen
-    const elSisi = document.getElementById('sisi');
-    const elPanjang = document.getElementById('panjang');
-    const elTinggi = document.getElementById('tinggi');
-    const btn = document.getElementById('hitung');
-    const btnReset = document.getElementById('reset');
-    const out = document.getElementById('out');
-
-    // Tombol hitung
-    btn.addEventListener('click', () => {
-      const sisi = toNumberOrNull(elSisi.value);
-      const panjang = toNumberOrNull(elPanjang.value);
-      const tinggi = toNumberOrNull(elTinggi.value);
-
-      try {
-        let lines = [];
-
-        if (sisi !== null) {
-          lines.push('Persegi:');
-          lines.push('  Luas = ' + areaSquare(sisi));
-          lines.push('  Keliling = ' + perimeterSquare(sisi));
-          lines.push('');
-        }
-
-        if (panjang !== null && sisi !== null) {
-          lines.push('Persegi Panjang:');
-          lines.push('  Luas = ' + areaRectangle(panjang, sisi));
-          lines.push('');
-        }
-
-        if (panjang !== null && sisi !== null && tinggi !== null) {
-          lines.push('Balok:');
-          lines.push('  Volume = ' + volumeRectPrism(panjang, sisi, tinggi));
-          lines.push('');
-        }
-
-        out.textContent = lines.join('\n') || 'Data tidak lengkap';
-      } catch (err) {
-        out.textContent = 'Error: ' + err.message;
+      // Hitung persegi: luas & keliling
+      if (s) {
+        hasil.push("Persegi:");
+        hasil.push("  Luas = " + (s * s));         // luas persegi = sisi * sisi
+        hasil.push("  Keliling = " + (4 * s));    // keliling persegi = 4 * sisi
+        hasil.push("");
       }
-    });
 
-    // Tombol reset
-    btnReset.addEventListener('click', () => {
-      elSisi.value = '';
-      elPanjang.value = '';
-      elTinggi.value = '';
+      // Hitung persegi panjang
+      if (p && s) {
+        hasil.push("Persegi Panjang:");
+        hasil.push("  Luas = " + (p * s));
+        hasil.push("");
+      }
+
+      // Hitung balok
+      if (p && s && t) {
+        hasil.push("Balok:");
+        hasil.push("  Volume = " + (p * s * t));
+        hasil.push("");
+      }
+
+      // Tampilkan hasil 
+      out.textContent = hasil.join("\n") || "Data tidak lengkap";
+    };
+
+    // tombol Reset
+    el("reset").onclick = () => {
+      // Kosongkan input
+      sisi.value = panjang.value = tinggi.value = "";
+      // Reset teks hasil
       out.textContent = 'Belum dihitung. Klik "Hitung Semua".';
-    });
+    };
   </script>
 </body>
 </html>

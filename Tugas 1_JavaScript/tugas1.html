@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tugas: Parameter Sisi / Panjang / Tinggi (1 file)</title>
+  <style>
+    body{font-family:Arial;margin:24px;background:#f7fafc;color:#111}
+    .card{background:#fff;padding:18px;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,0.06);max-width:760px;margin:auto}
+    label{display:block;margin:8px 0 4px}
+    input[type=number]{width:120px;padding:6px;border-radius:6px;border:1px solid #ccd}
+    button{margin-top:12px;padding:8px 12px;border-radius:8px;border:none;cursor:pointer}
+    pre{background:#0f172a;color:#e6eef8;padding:12px;border-radius:8px;overflow:auto}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Tugas: Parameter (sisi, panjang, tinggi)</h1>
+
+    <div>
+      <label for="sisi">Sisi</label>
+      <input id="sisi" type="number" step="any" placeholder="contoh: 5" />
+
+      <label for="panjang">Panjang</label>
+      <input id="panjang" type="number" step="any" placeholder="contoh: 10" />
+
+      <label for="tinggi">Tinggi</label>
+      <input id="tinggi" type="number" step="any" placeholder="contoh: 8" />
+
+      <div style="margin-top:12px">
+        <button id="hitung">Hitung Semua</button>
+        <button id="reset" style="margin-left:8px">Reset</button>
+      </div>
+    </div>
+
+    <h2>Hasil</h2>
+    <div id="hasil">
+      <pre id="out">Belum dihitung. Klik "Hitung Semua".</pre>
+    </div>
+  </div>
+
+  <script>
+    // Ubah string ke number atau null jika tidak valid
+    function toNumberOrNull(v) {
+      const n = Number(v);
+      return Number.isFinite(n) ? n : null;
+    }
+
+    // Luas persegi = sisi * sisi
+    function areaSquare(sisi) {
+      if (sisi == null) throw new Error('Sisi tidak valid');
+      return sisi * sisi;
+    }
+
+    // Keliling persegi = 4 * sisi
+    function perimeterSquare(sisi) {
+      if (sisi == null) throw new Error('Sisi tidak valid');
+      return 4 * sisi;
+    }
+
+    // Luas persegi panjang = panjang * lebar
+    function areaRectangle(panjang, lebar) {
+      if (panjang == null || lebar == null) throw new Error('Panjang/lebarnya tidak valid');
+      return panjang * lebar;
+    }
+
+    // Volume balok = panjang * lebar * tinggi
+    function volumeRectPrism(panjang, lebar, tinggi) {
+      if (panjang == null || lebar == null || tinggi == null) throw new Error('Data tidak lengkap');
+      return panjang * lebar * tinggi;
+    }
+
+    // Ambil elemen
+    const elSisi = document.getElementById('sisi');
+    const elPanjang = document.getElementById('panjang');
+    const elTinggi = document.getElementById('tinggi');
+    const btn = document.getElementById('hitung');
+    const btnReset = document.getElementById('reset');
+    const out = document.getElementById('out');
+
+    // Tombol hitung
+    btn.addEventListener('click', () => {
+      const sisi = toNumberOrNull(elSisi.value);
+      const panjang = toNumberOrNull(elPanjang.value);
+      const tinggi = toNumberOrNull(elTinggi.value);
+
+      try {
+        let lines = [];
+
+        if (sisi !== null) {
+          lines.push('Persegi:');
+          lines.push('  Luas = ' + areaSquare(sisi));
+          lines.push('  Keliling = ' + perimeterSquare(sisi));
+          lines.push('');
+        }
+
+        if (panjang !== null && sisi !== null) {
+          lines.push('Persegi Panjang:');
+          lines.push('  Luas = ' + areaRectangle(panjang, sisi));
+          lines.push('');
+        }
+
+        if (panjang !== null && sisi !== null && tinggi !== null) {
+          lines.push('Balok:');
+          lines.push('  Volume = ' + volumeRectPrism(panjang, sisi, tinggi));
+          lines.push('');
+        }
+
+        out.textContent = lines.join('\n') || 'Data tidak lengkap';
+      } catch (err) {
+        out.textContent = 'Error: ' + err.message;
+      }
+    });
+
+    // Tombol reset
+    btnReset.addEventListener('click', () => {
+      elSisi.value = '';
+      elPanjang.value = '';
+      elTinggi.value = '';
+      out.textContent = 'Belum dihitung. Klik "Hitung Semua".';
+    });
+  </script>
+</body>
+</html>

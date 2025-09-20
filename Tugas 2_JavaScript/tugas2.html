@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Tugas 2 - Data Pegawai</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+    }
+    h1 {
+      text-align: center;
+    }
+    table {
+      border-collapse: collapse;
+      width: 70%;
+      margin: 20px auto; 
+      background: #fff;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: center;
+    }
+    thead {
+      background-color: #f2f2f2;
+    }
+    tfoot {
+      background-color: #d9edf7;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Tugas 2 - Data Pegawai</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nama Pegawai</th>
+        <th>Umur</th>
+        <th>Jabatan</th>
+        <th>Status</th>
+        <th>Gaji Pokok</th>
+        <th>Tunjangan Jabatan</th>
+        <th>BPJS</th>
+        <th>Tunjangan Keluarga</th>
+      </tr>
+    </thead>
+    <tbody id="dataPegawai">
+      <!-- Data pegawai diisi JS -->
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="7">Total Gaji</td>
+        <td id="totalGaji"></td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <script>
+    const pegawai = {
+      nama: "dodi prayodi",
+      umur: 25,
+      jabatan: "manajer",
+      status: "menikah"
+    };
+
+    let gapok = 0;
+    if (pegawai.jabatan.toLowerCase() === "manajer") {
+      gapok = 15000000;
+    } else if (pegawai.jabatan.toLowerCase() === "asisten manajer") {
+      gapok = 10000000;
+    } else if (pegawai.jabatan.toLowerCase() === "staff") {
+      gapok = 5000000;
+    }
+
+    const tunjJabatan = 0.15 * gapok;
+    const bpjs = 0.10 * gapok;
+    const tunjKeluarga = (pegawai.status.toLowerCase() === "menikah") ? 0.20 * gapok : 0;
+    const totalGaji = gapok + tunjJabatan + bpjs + tunjKeluarga;
+
+    document.getElementById("dataPegawai").innerHTML = `
+      <tr>
+        <td>${pegawai.nama}</td>
+        <td>${pegawai.umur} tahun</td>
+        <td>${pegawai.jabatan}</td>
+        <td>${pegawai.status}</td>
+        <td>Rp ${gapok.toLocaleString()}</td>
+        <td>Rp ${tunjJabatan.toLocaleString()}</td>
+        <td>Rp ${bpjs.toLocaleString()}</td>
+        <td>Rp ${tunjKeluarga.toLocaleString()}</td>
+      </tr>
+    `;
+
+    document.getElementById("totalGaji").innerText = "Rp " + totalGaji.toLocaleString();
+  </script>
+</body>
+</html>

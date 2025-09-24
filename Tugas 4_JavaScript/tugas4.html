@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Tugas Pertemuan 4 - Sistem Manajemen Transportasi</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    table {
+      border-collapse: collapse;
+      width: 70%;
+      margin: 20px auto;
+      background: #fff;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+    thead {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <h1>Tugas Pertemuan 4 - Sistem Manajemen Transportasi</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nama</th>
+        <th>Nomor Telepon</th>
+        <th>Kendaraan Disewa</th>
+      </tr>
+    </thead>
+    <tbody id="daftarPelanggan">
+    </tbody>
+  </table>
+
+  <script>
+    // Class Pelanggan
+    class Pelanggan {
+      constructor(nama, nomorTelepon, kendaraanDisewa = null) {
+        this.nama = nama;
+        this.nomorTelepon = nomorTelepon;
+        this.kendaraanDisewa = kendaraanDisewa;
+      }
+
+      // Method untuk mencatat penyewaan kendaraan
+      sewaKendaraan(kendaraan) {
+        this.kendaraanDisewa = kendaraan;
+      }
+    }
+
+    // Array untuk menyimpan data pelanggan
+    const daftarPelanggan = [];
+
+    // Fungsi untuk menampilkan pelanggan di tabel
+    function tampilkanPelanggan() {
+      const tbody = document.getElementById("daftarPelanggan");
+      tbody.innerHTML = ""; 
+
+      daftarPelanggan.forEach(p => {
+        const row = `
+          <tr>
+            <td>${p.nama}</td>
+            <td>${p.nomorTelepon}</td>
+            <td>${p.kendaraanDisewa || "-"}</td>
+          </tr>
+        `;
+        tbody.innerHTML += row;
+      });
+    }
+
+    // data pelanggan
+    const pelanggan1 = new Pelanggan("Andi", "08123456789");
+    pelanggan1.sewaKendaraan("Mobil Avanza");
+
+    const pelanggan2 = new Pelanggan("Budi", "08234567890");
+    pelanggan2.sewaKendaraan("Motor Vario");
+
+    const pelanggan3 = new Pelanggan("Citra", "08345678901");
+    pelanggan3.sewaKendaraan("Bus Pariwisata");
+
+    
+    daftarPelanggan.push(pelanggan1, pelanggan2, pelanggan3);
+
+    // Tampilkan
+    tampilkanPelanggan();
+  </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Tugas 5 - Manajemen Produk</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f9;
+      text-align: center; /* biar heading dan output center */
+    }
+    h2 {
+      margin-top: 20px;
+    }
+    pre {
+      display: inline-block; /* biar teksnya bisa center */
+      text-align: left;      /* tapi isi teks tetap rata kiri */
+      background: #fff;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Tugas 5 - Manajemen Produk</h2>
+  <pre id="output"></pre>
+
+  <script>
+    // **Data Produk**
+    let produkList = [
+      { id: 1, nama: "Laptop", harga: 12000000 },
+      { id: 2, nama: "Smartphone", harga: 5000000 },
+      { id: 3, nama: "Keyboard", harga: 350000 },
+      { id: 4, nama: "Mouse", harga: 200000 },
+      { id: 5, nama: "Headset", harga: 500000 }
+    ];
+
+   
+    const eventHandler = (fn, ...args) => fn(...args);
+
+    // **Tambah Produk **
+    function tambahProduk(id, nama, harga) {
+      produkList = [...produkList, { id, nama, harga }];
+    }
+
+    // **Hapus Produk **
+    function hapusProduk(...id) {
+      produkList = produkList.filter(p => !id.includes(p.id));
+    }
+
+    // **Tampilkan Produk **
+    function tampilkanProduk() {
+      let teks = "== Daftar Produk ==\n";
+      produkList.forEach(({ id, nama, harga }) => {
+        teks += `ID: ${id}, Nama: ${nama}, Harga: Rp ${harga.toLocaleString()}\n`;
+      });
+      document.getElementById("output").textContent = teks;
+    }
+
+    
+    document.addEventListener("DOMContentLoaded", () => {
+      tampilkanProduk();
+
+      // Tambah produk baru
+      eventHandler(tambahProduk, 6, "Tablet", 7000000);
+      tampilkanProduk();
+
+      // Hapus produk id 2
+      eventHandler(hapusProduk, 2);
+      tampilkanProduk();
+    });
+  </script>
+</body>
+</html>

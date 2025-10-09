@@ -1,78 +1,77 @@
 // src/Utils/books.js
 const books = [
-    {
-      id: 1,
-      title: "Eloquent JavaScript",
-      author: "Marijn Haverbeke",
-      year: 2018,
-      description: "A Modern Introduction to Programming using JavaScript.",
-      img: "https://m.media-amazon.com/images/I/91asIC1fRwL.jpg"
-    },
-    {
-      id: 2,
-      title: "You Don’t Know JS Yet",
-      author: "Kyle Simpson",
-      year: 2020,
-      description: "Deep dive into the core mechanisms of the JavaScript language.",
-      img: "https://m.media-amazon.com/images/I/71nnp9f4m9L.jpg"
-    },
-    {
-      id: 3,
-      title: "Clean Code",
-      author: "Robert C. Martin",
-      year: 2008,
-      description: "A Handbook of Agile Software Craftsmanship.",
-      img: "https://m.media-amazon.com/images/I/41SH-SvWPxL.jpg"
-    },
-    {
-      id: 4,
-      title: "JavaScript: The Good Parts",
-      author: "Douglas Crockford",
-      year: 2008,
-      description: "Unearthing the excellence in JavaScript.",
-      img: "https://m.media-amazon.com/images/I/81kqrwS1nNL.jpg"
-    },
-    {
-      id: 5,
-      title: "Node.js Design Patterns",
-      author: "Mario Casciaro, Luciano Mammino",
-      year: 2020,
-      description: "Learn proven design patterns and best practices for Node.js development.",
-      img: "https://m.media-amazon.com/images/I/71f744gC9lL.jpg"
-    },
-    {
-      id: 6,
-      title: "Learning React",
-      author: "Alex Banks, Eve Porcello",
-      year: 2020,
-      description: "Functional Web Development with React and Redux.",
-      img: "https://m.media-amazon.com/images/I/71kzYtnwATL.jpg"
-    },
-    {
-      id: 7,
-      title: "Fullstack React",
-      author: "Anthony Accomazzo et al.",
-      year: 2017,
-      description: "The Complete Guide to ReactJS and Friends.",
-      img: "https://m.media-amazon.com/images/I/71s8O+9XQ-L.jpg"
-    },
-    {
-      id: 8,
-      title: "Mastering CSS",
-      author: "Vaibhav Verma",
-      year: 2021,
-      description: "Advanced techniques for modern responsive web design.",
-      img: "https://m.media-amazon.com/images/I/81vpsIs58WL.jpg"
-    },
-    {
-      id: 9,
-      title: "Database System Concepts",
-      author: "Abraham Silberschatz, Henry F. Korth, S. Sudarshan",
-      year: 2010,
-      description: "Comprehensive book on database design, implementation, and management.",
-      img: "https://m.media-amazon.com/images/I/71k+Tn9V9sL.jpg"
-    }
-  ];
-  
-  export default books;
-  
+  {
+    id: 1,
+    title: "The Great Gatsby",
+    author: "F. Scott Fitzgerald",
+    year: 1925,
+    description: "A classic novel about wealth, love, and the American Dream in the Jazz Age.",
+    img: "https://m.media-amazon.com/images/I/71FTb9X6wsL.jpg"
+  },
+  {
+    id: 2,
+    title: "To Kill a Mockingbird",
+    author: "Harper Lee",
+    year: 1960,
+    description: "A powerful story of racial injustice and moral growth in the American South.",
+    img: "https://m.media-amazon.com/images/I/81gepf1eMqL.jpg"
+  },
+  {
+    id: 3,
+    title: "1984",
+    author: "George Orwell",
+    year: 1949,
+    description: "A dystopian vision of totalitarianism, surveillance, and control.",
+    img: "https://m.media-amazon.com/images/I/71kxa1-0mfL.jpg"
+  },
+  {
+    id: 4,
+    title: "The Hobbit",
+    author: "J.R.R. Tolkien",
+    year: 1937,
+    description: "A fantasy adventure that follows Bilbo Baggins on his journey with dwarves.",
+    img: "https://m.media-amazon.com/images/I/81t2CVWEsUL.jpg"
+  },
+  {
+    id: 5,
+    title: "Harry Potter and the Sorcerer’s Stone",
+    author: "J.K. Rowling",
+    year: 1997,
+    description: "The first adventure of Harry Potter in the magical world of Hogwarts.",
+    img: "https://m.media-amazon.com/images/I/81iqZ2HHD-L.jpg"
+  },
+  {
+    id: 6,
+    title: "Pride and Prejudice",
+    author: "Jane Austen",
+    year: 1813,
+    description: "A romantic novel exploring manners, marriage, and morality.",
+    img: "https://m.media-amazon.com/images/I/81OthjkJBuL.jpg"
+  },
+  {
+    id: 7,
+    title: "The Alchemist",
+    author: "Paulo Coelho",
+    year: 1988,
+    description: "A philosophical story about following your dreams and destiny.",
+    img: "https://m.media-amazon.com/images/I/71aFt4+OTOL.jpg"
+  },
+  {
+    id: 8,
+    title: "The Catcher in the Rye",
+    author: "J.D. Salinger",
+    year: 1951,
+    description: "The coming-of-age story of Holden Caulfield in post-war America.",
+    img: "https://m.media-amazon.com/images/I/81OthjkJBuL.jpg"
+  },
+  {
+    id: 9,
+    title: "The Da Vinci Code",
+    author: "Dan Brown",
+    year: 2003,
+    description: "A thriller combining art, history, and religious conspiracy theories.",
+    img: "https://m.media-amazon.com/images/I/91Q5dCjc2KL.jpg"
+  }
+];
+
+export default books;

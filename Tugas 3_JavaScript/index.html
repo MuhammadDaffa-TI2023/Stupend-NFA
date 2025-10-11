@@ -2,61 +2,91 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Tugas Pertemuan 3 - Manajemen Produk</title>
+  <title>Tugas Pertemuan 3 - Sistem Manajemen Pesanan</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       background: #f9f9f9;
+      padding: 20px;
     }
     h1 {
       text-align: center;
     }
-    #output {
-      display: block;
-      width: 60%;
+    table {
+      border-collapse: collapse;
+      width: 70%;
       margin: 20px auto;
       background: #fff;
+    }
+    th, td {
       border: 1px solid #ccc;
-      padding: 15px;
-      border-radius: 8px;
-      text-align: left;   
+      padding: 8px;
+      text-align: center;
+    }
+    thead {
+      background-color: #f2f2f2;
     }
   </style>
 </head>
 <body>
-  <h1>Tugas Pertemuan 3 - Sistem Manajemen Produk</h1>
-  <pre id="output"></pre>
+  <h1>Tugas Pertemuan 3 - Sistem Manajemen Pesanan</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nama Produk</th>
+        <th>Harga</th>
+        <th>Stok</th>
+      </tr>
+    </thead>
+    <tbody id="daftarProduk">
+    
+    </tbody>
+  </table>
 
   <script>
+    // Array produk
     let produkToko = [
       {id: 1, nama: "Laptop", harga: 7000000, stok: 5},
       {id: 2, nama: "Mouse", harga: 200000, stok: 10},
       {id: 3, nama: "Keyboard", harga: 350000, stok: 7}
     ];
 
+    // Fungsi untuk menampilkan produk
     function tampilkanProduk() {
-      let teks = "Daftar Produk:\n";
+      const tbody = document.getElementById("daftarProduk");
+      tbody.innerHTML = "";
+
       produkToko.forEach(p => {
-        teks += `ID: ${p.id}, Nama: ${p.nama}, Harga: Rp ${p.harga.toLocaleString()}, Stok: ${p.stok}\n`;
+        tbody.innerHTML += `
+          <tr>
+            <td>${p.id}</td>
+            <td>${p.nama}</td>
+            <td>Rp ${p.harga.toLocaleString()}</td>
+            <td>${p.stok}</td>
+          </tr>
+        `;
       });
-      document.getElementById("output").textContent = teks;
     }
 
+    // Fungsi  menambah produk
     function tambahProduk(nama, harga, stok) {
       const idBaru = produkToko.length > 0 ? produkToko[produkToko.length - 1].id + 1 : 1;
       produkToko.push({id: idBaru, nama, harga, stok});
       tampilkanProduk();
     }
 
+    // Fungsi hapus produk berdasarkan id
     function hapusProduk(id) {
       produkToko = produkToko.filter(p => p.id !== id);
       tampilkanProduk();
     }
 
     
-    tampilkanProduk();
-    tambahProduk("Headset", 500000, 4);
-    hapusProduk(2);
+    tampilkanProduk();                  
+    tambahProduk("Headset", 500000, 4); 
+    hapusProduk(2);                     
   </script>
 </body>
 </html>

@@ -7,7 +7,11 @@ import ContactPage from "./pages/ContactPage";
 import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 
-import books from "./Utils/books"; // ✅ pakai data dari utils
+// 🔹 Admin Pages
+import GenrePage from "./pages/Admin/GenrePage";
+import AuthorPage from "./pages/Admin/AuthorPage";
+
+import books from "./Utils/books";
 import "./App.css";
 
 function App() {
@@ -26,6 +30,10 @@ function App() {
             <NavLink to="/books" className="nav-link">Books</NavLink>
             <NavLink to="/team" className="nav-link">Team</NavLink>
             <NavLink to="/contact" className="nav-link">Contact</NavLink>
+
+            {/* 🔹 Tambahkan menu Admin */}
+            <NavLink to="/admin/genres" className="nav-link text-danger">Genres</NavLink>
+            <NavLink to="/admin/authors" className="nav-link text-danger">Authors</NavLink>
           </nav>
 
           <div className="text-end">
@@ -36,12 +44,17 @@ function App() {
 
         {/* Routing */}
         <Routes>
+          {/* Halaman utama */}
           <Route path="/" element={<HomePage products={books} />} />
           <Route path="/books" element={<Books products={books} />} />
           <Route path="/team" element={<TeamPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+
+          {/* 🔹 Route Admin */}
+          <Route path="/admin/genres" element={<GenrePage />} />
+          <Route path="/admin/authors" element={<AuthorPage />} />
         </Routes>
 
         {/* Footer */}
@@ -51,6 +64,8 @@ function App() {
             <li><NavLink to="/books" className="nav-link px-2">Books</NavLink></li>
             <li><NavLink to="/team" className="nav-link px-2">Team</NavLink></li>
             <li><NavLink to="/contact" className="nav-link px-2">Contact</NavLink></li>
+            <li><NavLink to="/admin/genres" className="nav-link px-2 text-danger">Genres</NavLink></li>
+            <li><NavLink to="/admin/authors" className="nav-link px-2 text-danger">Authors</NavLink></li>
           </ul>
           <p className="text-center text-body-secondary">
             © {new Date().getFullYear()} Book Store, Muhammad Daffa

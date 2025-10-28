@@ -1,6 +1,6 @@
 // src/pages/Admin/AuthorPage.jsx
 import React, { useState, useEffect } from "react";
-import api from "../../api/axios"; // ✅ path diperbaiki
+import api from "../../api/axios"; 
 
 const AuthorPage = () => {
   const [authors, setAuthors] = useState([]);

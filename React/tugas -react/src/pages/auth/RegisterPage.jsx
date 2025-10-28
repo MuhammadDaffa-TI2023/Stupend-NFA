@@ -38,15 +38,19 @@ function RegisterPage() {
 
     try {
       const res = await axios.post("http://127.0.0.1:8000/api/register", form);
+
+      // Simpan token & user
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+
       setMessage(res.data.message || "Registrasi berhasil!");
-      setForm({
-        name: "",
-        email: "",
-        password: "",
-        password_confirmation: "",
-        is_admin: false,
-      });
-      setTimeout(() => navigate("/login"), 2000);
+
+      // Redirect sesuai role
+      if (res.data.user.is_admin) {
+        navigate("/admin/genres"); // admin ke dashboard admin
+      } else {
+        navigate("/home"); // user biasa ke halaman utama
+      }
     } catch (error) {
       console.error(error);
       if (error.response?.data?.errors) {

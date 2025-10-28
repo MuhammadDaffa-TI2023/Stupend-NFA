@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import api from "../../api/axios";
+import { useNavigate } from "react-router-dom";
 
 const DashboardPage = () => {
-  
+  const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user"));
+
   const [genres, setGenres] = useState([]);
   const [authors, setAuthors] = useState([]);
   const [newGenre, setNewGenre] = useState({ nama: "", deskripsi: "" });
@@ -12,10 +15,15 @@ const DashboardPage = () => {
   const [preview, setPreview] = useState(null);
   const [editingAuthorId, setEditingAuthorId] = useState(null);
   const [message, setMessage] = useState("");
-  const user = JSON.parse(localStorage.getItem("user"));
 
+  // Proteksi admin
   useEffect(() => {
-    fetchData();
+    if (!user || !user.is_admin) {
+      alert("Hanya admin yang bisa mengakses halaman ini!");
+      navigate("/home"); // redirect user biasa
+    } else {
+      fetchData();
+    }
   }, []);
 
   const fetchData = async () => {
@@ -30,13 +38,11 @@ const DashboardPage = () => {
     }
   };
 
-  
-
   // Logout
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    window.location.href = "/login";
+    navigate("/login");
   };
 
   // Genre
@@ -127,7 +133,6 @@ const DashboardPage = () => {
     }
   };
 
-  
   return (
     <div className="container mt-4">
       {/* Header */}

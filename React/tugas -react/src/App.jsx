@@ -1,5 +1,4 @@
-// src/App.jsx
-import { BrowserRouter as Router, Routes, Route, NavLink } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, NavLink, Navigate } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import Books from "./pages/Books";
 import TeamPage from "./pages/TeamPage";
@@ -7,14 +6,24 @@ import ContactPage from "./pages/ContactPage";
 import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 
-// 🔹 Admin Pages
-import GenrePage from "./pages/Admin/GenrePage";
-import AuthorPage from "./pages/Admin/AuthorPage";
+// 🔹 Admin Dashboard
+import DashboardPage from "./pages/Admin/DashboardPage";
 
 import books from "./Utils/books";
 import "./App.css";
 
+// 🔹 PrivateRoute untuk admin
+const AdminRoute = ({ children }) => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user || !user.is_admin) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
+};
+
 function App() {
+  const user = JSON.parse(localStorage.getItem("user"));
+
   return (
     <Router>
       <div className="container">
@@ -31,20 +40,35 @@ function App() {
             <NavLink to="/team" className="nav-link">Team</NavLink>
             <NavLink to="/contact" className="nav-link">Contact</NavLink>
 
-            {/* 🔹 Tambahkan menu Admin */}
-            <NavLink to="/admin/genres" className="nav-link text-danger">Genres</NavLink>
-            <NavLink to="/admin/authors" className="nav-link text-danger">Authors</NavLink>
+            {/* Menu Dashboard hanya untuk admin */}
+            {user?.is_admin && (
+              <NavLink to="/admin" className="nav-link text-danger">Dashboard</NavLink>
+            )}
           </nav>
 
           <div className="text-end">
-            <NavLink to="/login" className="btn btn-outline-primary me-2">Login</NavLink>
-            <NavLink to="/register" className="btn btn-primary">Register</NavLink>
+            {!user ? (
+              <>
+                <NavLink to="/login" className="btn btn-outline-primary me-2">Login</NavLink>
+                <NavLink to="/register" className="btn btn-primary">Register</NavLink>
+              </>
+            ) : (
+              <button
+                className="btn btn-outline-danger"
+                onClick={() => {
+                  localStorage.removeItem("user");
+                  localStorage.removeItem("token");
+                  window.location.href = "/login";
+                }}
+              >
+                Logout
+              </button>
+            )}
           </div>
         </header>
 
         {/* Routing */}
         <Routes>
-          {/* Halaman utama */}
           <Route path="/" element={<HomePage products={books} />} />
           <Route path="/books" element={<Books products={books} />} />
           <Route path="/team" element={<TeamPage />} />
@@ -52,9 +76,15 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
 
-          {/* 🔹 Route Admin */}
-          <Route path="/admin/genres" element={<GenrePage />} />
-          <Route path="/admin/authors" element={<AuthorPage />} />
+          {/* 🔹 Admin dashboard protected */}
+          <Route
+            path="/admin"
+            element={
+              <AdminRoute>
+                <DashboardPage />
+              </AdminRoute>
+            }
+          />
         </Routes>
 
         {/* Footer */}
@@ -64,8 +94,9 @@ function App() {
             <li><NavLink to="/books" className="nav-link px-2">Books</NavLink></li>
             <li><NavLink to="/team" className="nav-link px-2">Team</NavLink></li>
             <li><NavLink to="/contact" className="nav-link px-2">Contact</NavLink></li>
-            <li><NavLink to="/admin/genres" className="nav-link px-2 text-danger">Genres</NavLink></li>
-            <li><NavLink to="/admin/authors" className="nav-link px-2 text-danger">Authors</NavLink></li>
+            {user?.is_admin && (
+              <li><NavLink to="/admin" className="nav-link px-2 text-danger">Dashboard</NavLink></li>
+            )}
           </ul>
           <p className="text-center text-body-secondary">
             © {new Date().getFullYear()} Book Store, Muhammad Daffa

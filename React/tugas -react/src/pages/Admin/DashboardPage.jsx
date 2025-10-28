@@ -2,13 +2,18 @@ import { useEffect, useState } from "react";
 import api from "../../api/axios";
 
 const DashboardPage = () => {
+  
   const [genres, setGenres] = useState([]);
   const [authors, setAuthors] = useState([]);
   const [newGenre, setNewGenre] = useState({ nama: "", deskripsi: "" });
-  const [newAuthor, setNewAuthor] = useState({ nama: "", email: "" });
+  const [editingGenreId, setEditingGenreId] = useState(null);
+  const [newAuthor, setNewAuthor] = useState({ name: "", bio: "" });
+  const [photoFile, setPhotoFile] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const [editingAuthorId, setEditingAuthorId] = useState(null);
   const [message, setMessage] = useState("");
+  const user = JSON.parse(localStorage.getItem("user"));
 
-  // Ambil data dari API Laravel
   useEffect(() => {
     fetchData();
   }, []);
@@ -17,7 +22,6 @@ const DashboardPage = () => {
     try {
       const genreRes = await api.get("/genres");
       const authorRes = await api.get("/authors");
-
       setGenres(Array.isArray(genreRes.data.data) ? genreRes.data.data : []);
       setAuthors(Array.isArray(authorRes.data.data) ? authorRes.data.data : []);
     } catch (err) {
@@ -26,37 +30,42 @@ const DashboardPage = () => {
     }
   };
 
-  // Tambah Genre
-  const handleAddGenre = async (e) => {
+  
+
+  // Logout
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    window.location.href = "/login";
+  };
+
+  // Genre
+  const handleAddOrUpdateGenre = async (e) => {
     e.preventDefault();
     try {
-      await api.post("/genres", newGenre);
-      setMessage("✅ Genre berhasil ditambahkan!");
+      if (editingGenreId) {
+        await api.put(`/genres/${editingGenreId}`, newGenre);
+        setMessage("✏️ Genre berhasil diupdate!");
+        setEditingGenreId(null);
+      } else {
+        await api.post("/genres", newGenre);
+        setMessage("✅ Genre berhasil ditambahkan!");
+      }
       setNewGenre({ nama: "", deskripsi: "" });
       fetchData();
     } catch (err) {
       console.error(err);
-      setMessage("❌ Gagal menambah genre.");
+      setMessage("❌ Gagal menyimpan genre.");
     }
   };
 
-  // Tambah Author
-  const handleAddAuthor = async (e) => {
-    e.preventDefault();
-    try {
-      await api.post("/authors", newAuthor);
-      setMessage("✅ Author berhasil ditambahkan!");
-      setNewAuthor({ nama: "", email: "" });
-      fetchData();
-    } catch (err) {
-      console.error(err);
-      setMessage("❌ Gagal menambah author.");
-    }
+  const handleEditGenre = (genre) => {
+    setEditingGenreId(genre.id);
+    setNewGenre({ nama: genre.nama, deskripsi: genre.deskripsi });
   };
 
-  // Hapus Genre
   const handleDeleteGenre = async (id) => {
-    if (!confirm("Yakin hapus genre ini?")) return;
+    if (!window.confirm("Yakin hapus genre ini?")) return;
     try {
       await api.delete(`/genres/${id}`);
       setMessage("🗑️ Genre berhasil dihapus!");
@@ -67,42 +76,98 @@ const DashboardPage = () => {
     }
   };
 
-  // Hapus Author
-  const handleDeleteAuthor = async (id) => {
-    if (!confirm("Yakin hapus author ini?")) return;
+  // Author
+  const handleAddOrUpdateAuthor = async (e) => {
+    e.preventDefault();
     try {
-      await api.delete(`/authors/${id}`);
-      setMessage("🗑️ Author berhasil dihapus!");
+      const formData = new FormData();
+      formData.append("name", newAuthor.name);
+      formData.append("bio", newAuthor.bio || "");
+      if (photoFile) formData.append("photo", photoFile);
+
+      let res;
+      if (editingAuthorId) {
+        res = await api.post(`/authors/${editingAuthorId}?_method=PUT`, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        setEditingAuthorId(null);
+      } else {
+        res = await api.post("/authors", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+      }
+
+      setMessage(res.data.message);
+      setNewAuthor({ name: "", bio: "" });
+      setPhotoFile(null);
+      setPreview(null);
       fetchData();
+    } catch (err) {
+      console.error(err.response?.data || err);
+      setMessage("❌ Gagal menyimpan author.");
+    }
+  };
+
+  const handleEditAuthor = (author) => {
+    setEditingAuthorId(author.id);
+    setNewAuthor({ name: author.name, bio: author.bio || "" });
+    setPreview(author.photo || null);
+    setPhotoFile(null);
+  };
+
+  const handleDeleteAuthor = async (id) => {
+    if (!window.confirm("Yakin hapus author ini?")) return;
+    try {
+      const res = await api.delete(`/authors/${id}`);
+      setMessage(res.data.message);
+      setAuthors(authors.filter((a) => a.id !== id));
     } catch (err) {
       console.error(err);
       setMessage("❌ Gagal menghapus author.");
     }
   };
 
+  
   return (
     <div className="container mt-4">
-      <h2 className="mb-4">📊 Dashboard Admin</h2>
+      {/* Header */}
+      <div className="d-flex justify-content-between align-items-center mb-4 position-relative">
+        <div className="text-center w-100">
+          <h2 className="mb-0">📊 Dashboard Admin</h2>
+          <p className="text-muted mb-0">
+            Halo, <strong>{user?.name || "Super Admin"}</strong> 👋
+          </p>
+        </div>
+        <button
+          onClick={handleLogout}
+          className="btn btn-outline-danger position-absolute end-0"
+          style={{ right: 0 }}
+        >
+          Logout
+        </button>
+      </div>
+
+      {/* Message */}
       {message && (
         <div className="alert alert-info py-2" role="alert">
           {message}
         </div>
       )}
 
-      {/* === FORM GENRE === */}
-      <div className="card mb-4">
-        <div className="card-header fw-bold">Tambah Genre</div>
+      {/* FORM GENRE */}
+      <div className="card mb-4 shadow-sm">
+        <div className="card-header fw-bold bg-primary text-white">
+          {editingGenreId ? "✏️ Edit Genre" : "➕ Tambah Genre"}
+        </div>
         <div className="card-body">
-          <form onSubmit={handleAddGenre} className="row g-2">
+          <form onSubmit={handleAddOrUpdateGenre} className="row g-2">
             <div className="col-md-5">
               <input
                 type="text"
                 className="form-control"
                 placeholder="Nama Genre"
                 value={newGenre.nama}
-                onChange={(e) =>
-                  setNewGenre({ ...newGenre, nama: e.target.value })
-                }
+                onChange={(e) => setNewGenre({ ...newGenre, nama: e.target.value })}
                 required
               />
             </div>
@@ -112,28 +177,38 @@ const DashboardPage = () => {
                 className="form-control"
                 placeholder="Deskripsi"
                 value={newGenre.deskripsi}
-                onChange={(e) =>
-                  setNewGenre({ ...newGenre, deskripsi: e.target.value })
-                }
+                onChange={(e) => setNewGenre({ ...newGenre, deskripsi: e.target.value })}
               />
             </div>
-            <div className="col-md-2">
-              <button type="submit" className="btn btn-primary w-100">
-                Tambah
+            <div className="col-md-2 d-flex gap-2">
+              <button type="submit" className="btn btn-success w-100">
+                {editingGenreId ? "Update" : "Tambah"}
               </button>
+              {editingGenreId && (
+                <button
+                  type="button"
+                  className="btn btn-secondary w-100"
+                  onClick={() => {
+                    setEditingGenreId(null);
+                    setNewGenre({ nama: "", deskripsi: "" });
+                  }}
+                >
+                  Batal
+                </button>
+              )}
             </div>
           </form>
         </div>
       </div>
 
-      {/* === TABEL GENRE === */}
-      <div className="card mb-5">
-        <div className="card-header fw-bold">Daftar Genre</div>
+      {/* TABEL GENRE */}
+      <div className="card mb-5 shadow-sm">
+        <div className="card-header fw-bold bg-light">Daftar Genre</div>
         <div className="card-body">
           {genres.length === 0 ? (
             <p className="text-muted">Belum ada genre.</p>
           ) : (
-            <table className="table table-striped">
+            <table className="table table-striped table-hover">
               <thead>
                 <tr>
                   <th>ID</th>
@@ -149,10 +224,10 @@ const DashboardPage = () => {
                     <td>{g.nama}</td>
                     <td>{g.deskripsi}</td>
                     <td>
-                      <button
-                        onClick={() => handleDeleteGenre(g.id)}
-                        className="btn btn-danger btn-sm"
-                      >
+                      <button className="btn btn-warning btn-sm me-2" onClick={() => handleEditGenre(g)}>
+                        Edit
+                      </button>
+                      <button className="btn btn-danger btn-sm" onClick={() => handleDeleteGenre(g.id)}>
                         Hapus
                       </button>
                     </td>
@@ -164,70 +239,115 @@ const DashboardPage = () => {
         </div>
       </div>
 
-      {/* === FORM AUTHOR === */}
-      <div className="card mb-4">
-        <div className="card-header fw-bold">Tambah Author</div>
+      {/* FORM AUTHOR */}
+      <div className="card mb-4 shadow-sm">
+        <div className="card-header fw-bold bg-success text-white">
+          {editingAuthorId ? "✏️ Edit Author" : "➕ Tambah Author Baru"}
+        </div>
         <div className="card-body">
-          <form onSubmit={handleAddAuthor} className="row g-2">
-            <div className="col-md-5">
+          <form onSubmit={handleAddOrUpdateAuthor} className="row g-2">
+            <div className="col-md-4">
               <input
                 type="text"
                 className="form-control"
                 placeholder="Nama Author"
-                value={newAuthor.nama}
-                onChange={(e) =>
-                  setNewAuthor({ ...newAuthor, nama: e.target.value })
-                }
+                value={newAuthor.name}
+                onChange={(e) => setNewAuthor({ ...newAuthor, name: e.target.value })}
                 required
               />
             </div>
-            <div className="col-md-5">
+            <div className="col-md-4">
               <input
-                type="email"
+                type="text"
                 className="form-control"
-                placeholder="Email Author"
-                value={newAuthor.email}
-                onChange={(e) =>
-                  setNewAuthor({ ...newAuthor, email: e.target.value })
-                }
+                placeholder="Bio Author"
+                value={newAuthor.bio}
+                onChange={(e) => setNewAuthor({ ...newAuthor, bio: e.target.value })}
               />
             </div>
             <div className="col-md-2">
-              <button type="submit" className="btn btn-primary w-100">
-                Tambah
+              <input
+                type="file"
+                className="form-control"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  if (file) {
+                    setPhotoFile(file);
+                    setPreview(URL.createObjectURL(file));
+                  }
+                }}
+              />
+            </div>
+            <div className="col-md-2 d-flex gap-2">
+              <button type="submit" className="btn btn-success w-100">
+                {editingAuthorId ? "Update" : "Tambah"}
               </button>
+              {editingAuthorId && (
+                <button
+                  type="button"
+                  className="btn btn-secondary w-100"
+                  onClick={() => {
+                    setEditingAuthorId(null);
+                    setNewAuthor({ name: "", bio: "" });
+                    setPhotoFile(null);
+                    setPreview(null);
+                  }}
+                >
+                  Batal
+                </button>
+              )}
             </div>
           </form>
+          {preview && (
+            <img
+              src={preview}
+              alt="Preview"
+              style={{ width: "100px", height: "100px", objectFit: "cover", marginTop: "10px", borderRadius: "8px" }}
+            />
+          )}
         </div>
       </div>
 
-      {/* === TABEL AUTHOR === */}
-      <div className="card mb-5">
-        <div className="card-header fw-bold">Daftar Author</div>
+      {/* TABEL AUTHOR */}
+      <div className="card mb-5 shadow-sm">
+        <div className="card-header fw-bold bg-light">Daftar Author</div>
         <div className="card-body">
           {authors.length === 0 ? (
             <p className="text-muted">Belum ada author.</p>
           ) : (
-            <table className="table table-striped">
+            <table className="table table-striped table-hover">
               <thead>
                 <tr>
-                  <th>ID</th>
+                  <th>#</th>
+                  <th>Foto</th>
                   <th>Nama</th>
-                  <th>Email</th>
+                  <th>Bio</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
               <tbody>
-                {authors.map((a) => (
+                {authors.map((a, i) => (
                   <tr key={a.id}>
-                    <td>{a.id}</td>
-                    <td>{a.nama}</td>
-                    <td>{a.email}</td>
+                    <td>{i + 1}</td>
                     <td>
-                      <button
-                        onClick={() => handleDeleteAuthor(a.id)}
-                        className="btn btn-danger btn-sm"
-                      >
+                      {a.photo ? (
+                        <img
+                          src={a.photo}
+                          alt={a.name}
+                          style={{ width: "60px", height: "60px", objectFit: "cover", borderRadius: "8px" }}
+                        />
+                      ) : (
+                        <span className="text-muted">Tidak ada</span>
+                      )}
+                    </td>
+                    <td>{a.name}</td>
+                    <td>{a.bio}</td>
+                    <td>
+                      <button className="btn btn-warning btn-sm me-2" onClick={() => handleEditAuthor(a)}>
+                        Edit
+                      </button>
+                      <button className="btn btn-danger btn-sm" onClick={() => handleDeleteAuthor(a.id)}>
                         Hapus
                       </button>
                     </td>

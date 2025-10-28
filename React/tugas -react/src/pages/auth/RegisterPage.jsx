@@ -15,9 +15,8 @@ function RegisterPage() {
 
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  // Validasi sederhana
   const validate = () => {
     const newErrors = {};
     if (!form.name.trim()) newErrors.name = "Nama wajib diisi";
@@ -47,7 +46,6 @@ function RegisterPage() {
         password_confirmation: "",
         is_admin: false,
       });
-
       setTimeout(() => navigate("/login"), 2000);
     } catch (error) {
       console.error(error);
@@ -63,7 +61,6 @@ function RegisterPage() {
     <div className="d-flex justify-content-center align-items-start vh-100 bg-light">
       <div className="card shadow p-4 mt-5" style={{ width: "400px" }}>
         <h3 className="text-center mb-3">Register Akun</h3>
-
         <form onSubmit={handleSubmit}>
           {/* Nama */}
           <div className="mb-3">
@@ -75,9 +72,7 @@ function RegisterPage() {
               onChange={(e) => setForm({ ...form, name: e.target.value })}
               placeholder="Masukkan nama"
             />
-            {errors.name && (
-              <div className="invalid-feedback">{errors.name}</div>
-            )}
+            {errors.name && <div className="invalid-feedback">{errors.name}</div>}
           </div>
 
           {/* Email */}
@@ -90,68 +85,36 @@ function RegisterPage() {
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               placeholder="Masukkan email"
             />
-            {errors.email && (
-              <div className="invalid-feedback">{errors.email}</div>
-            )}
+            {errors.email && <div className="invalid-feedback">{errors.email}</div>}
           </div>
 
           {/* Password */}
-          <div className="mb-3 position-relative">
+          <div className="mb-3">
             <label className="form-label">Password</label>
             <input
-              type={showPassword ? "text" : "password"}
+              type="password"
               className={`form-control ${errors.password ? "is-invalid" : ""}`}
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
               placeholder="Masukkan password"
             />
-            <button
-              type="button"
-              className="btn position-absolute top-50 end-0 translate-middle-y border-0 bg-transparent"
-              onClick={() => setShowPassword(!showPassword)}
-              style={{ marginRight: "10px" }}
-            >
-              <i
-                className={`fa-solid ${
-                  showPassword ? "fa-eye-slash" : "fa-eye"
-                }`}
-              ></i>
-            </button>
-            {errors.password && (
-              <div className="invalid-feedback">{errors.password}</div>
-            )}
+            {errors.password && <div className="invalid-feedback">{errors.password}</div>}
           </div>
 
           {/* Konfirmasi Password */}
-          <div className="mb-3 position-relative">
+          <div className="mb-3">
             <label className="form-label">Konfirmasi Password</label>
             <input
-              type={showConfirmPassword ? "text" : "password"}
-              className={`form-control ${
-                errors.password_confirmation ? "is-invalid" : ""
-              }`}
+              type="password"
+              className={`form-control ${errors.password_confirmation ? "is-invalid" : ""}`}
               value={form.password_confirmation}
               onChange={(e) =>
                 setForm({ ...form, password_confirmation: e.target.value })
               }
               placeholder="Masukkan ulang password"
             />
-            <button
-              type="button"
-              className="btn position-absolute top-50 end-0 translate-middle-y border-0 bg-transparent"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              style={{ marginRight: "10px" }}
-            >
-              <i
-                className={`fa-solid ${
-                  showConfirmPassword ? "fa-eye-slash" : "fa-eye"
-                }`}
-              ></i>
-            </button>
             {errors.password_confirmation && (
-              <div className="invalid-feedback">
-                {errors.password_confirmation}
-              </div>
+              <div className="invalid-feedback">{errors.password_confirmation}</div>
             )}
           </div>
 
@@ -161,9 +124,7 @@ function RegisterPage() {
               className="form-check-input"
               type="checkbox"
               checked={form.is_admin}
-              onChange={(e) =>
-                setForm({ ...form, is_admin: e.target.checked })
-              }
+              onChange={(e) => setForm({ ...form, is_admin: e.target.checked })}
               id="is_admin"
             />
             <label className="form-check-label" htmlFor="is_admin">
@@ -179,9 +140,7 @@ function RegisterPage() {
         {message && (
           <div
             className={`alert mt-3 ${
-              message.toLowerCase().includes("berhasil")
-                ? "alert-success"
-                : "alert-danger"
+              message.toLowerCase().includes("berhasil") ? "alert-success" : "alert-danger"
             }`}
           >
             {message}

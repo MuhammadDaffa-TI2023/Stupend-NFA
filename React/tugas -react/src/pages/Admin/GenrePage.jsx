@@ -1,6 +1,6 @@
-// src/pages/Admin/GenrePage.jsx
+
 import React, { useState, useEffect } from "react";
-import api from "../../api/axios"; // ✅ path diperbaiki
+import api from "../../api/axios"; 
 
 const GenrePage = () => {
   const [genres, setGenres] = useState([]);

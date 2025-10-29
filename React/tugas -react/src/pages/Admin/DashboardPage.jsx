@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import api from "../../api/axios";
 import { useNavigate } from "react-router-dom";
+import api from "../../api/axios";
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -10,42 +10,54 @@ const DashboardPage = () => {
   const [authors, setAuthors] = useState([]);
   const [newGenre, setNewGenre] = useState({ nama: "", deskripsi: "" });
   const [editingGenreId, setEditingGenreId] = useState(null);
+
   const [newAuthor, setNewAuthor] = useState({ name: "", bio: "" });
   const [photoFile, setPhotoFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [editingAuthorId, setEditingAuthorId] = useState(null);
+
   const [message, setMessage] = useState("");
 
-  // Proteksi admin
+  // Proteksi halaman admin
   useEffect(() => {
-    if (!user || !user.is_admin) {
-      alert("Hanya admin yang bisa mengakses halaman ini!");
-      navigate("/home"); // redirect user biasa
-    } else {
-      fetchData();
+    if (!user) {
+      alert("Silakan login terlebih dahulu!");
+      navigate("/login");
+      return;
     }
+
+    if (!user.is_admin) {
+      alert("Hanya admin yang bisa mengakses halaman ini!");
+      navigate("/");
+      return;
+    }
+
+    fetchData();
   }, []);
 
+  // 🔹 Ambil data genre & author
   const fetchData = async () => {
     try {
-      const genreRes = await api.get("/genres");
-      const authorRes = await api.get("/authors");
-      setGenres(Array.isArray(genreRes.data.data) ? genreRes.data.data : []);
-      setAuthors(Array.isArray(authorRes.data.data) ? authorRes.data.data : []);
+      const [genreRes, authorRes] = await Promise.all([
+        api.get("/genres"),
+        api.get("/authors"),
+      ]);
+      setGenres(genreRes.data.data || []);
+      setAuthors(authorRes.data.data || []);
     } catch (err) {
       console.error("Gagal ambil data:", err);
-      setMessage("Gagal memuat data dari server.");
+      setMessage("❌ Gagal memuat data dari server.");
     }
   };
 
-  // Logout
+  //  Logout
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     navigate("/login");
   };
 
-  // Genre
+  
   const handleAddOrUpdateGenre = async (e) => {
     e.preventDefault();
     try {
@@ -82,7 +94,7 @@ const DashboardPage = () => {
     }
   };
 
-  // Author
+  
   const handleAddOrUpdateAuthor = async (e) => {
     e.preventDefault();
     try {
@@ -103,7 +115,7 @@ const DashboardPage = () => {
         });
       }
 
-      setMessage(res.data.message);
+      setMessage(res.data.message || "✅ Berhasil menyimpan author!");
       setNewAuthor({ name: "", bio: "" });
       setPhotoFile(null);
       setPreview(null);
@@ -117,7 +129,11 @@ const DashboardPage = () => {
   const handleEditAuthor = (author) => {
     setEditingAuthorId(author.id);
     setNewAuthor({ name: author.name, bio: author.bio || "" });
-    setPreview(author.photo || null);
+    setPreview(
+      author.photo
+        ? `${import.meta.env.VITE_API_URL}/storage/${author.photo}`
+        : null
+    );
     setPhotoFile(null);
   };
 
@@ -125,7 +141,7 @@ const DashboardPage = () => {
     if (!window.confirm("Yakin hapus author ini?")) return;
     try {
       const res = await api.delete(`/authors/${id}`);
-      setMessage(res.data.message);
+      setMessage(res.data.message || "Author berhasil dihapus!");
       setAuthors(authors.filter((a) => a.id !== id));
     } catch (err) {
       console.error(err);
@@ -135,7 +151,7 @@ const DashboardPage = () => {
 
   return (
     <div className="container mt-4">
-      {/* Header */}
+     
       <div className="d-flex justify-content-between align-items-center mb-4 position-relative">
         <div className="text-center w-100">
           <h2 className="mb-0">📊 Dashboard Admin</h2>
@@ -152,14 +168,14 @@ const DashboardPage = () => {
         </button>
       </div>
 
-      {/* Message */}
+      
       {message && (
         <div className="alert alert-info py-2" role="alert">
           {message}
         </div>
       )}
 
-      {/* FORM GENRE */}
+    
       <div className="card mb-4 shadow-sm">
         <div className="card-header fw-bold bg-primary text-white">
           {editingGenreId ? "✏️ Edit Genre" : "➕ Tambah Genre"}
@@ -172,7 +188,9 @@ const DashboardPage = () => {
                 className="form-control"
                 placeholder="Nama Genre"
                 value={newGenre.nama}
-                onChange={(e) => setNewGenre({ ...newGenre, nama: e.target.value })}
+                onChange={(e) =>
+                  setNewGenre({ ...newGenre, nama: e.target.value })
+                }
                 required
               />
             </div>
@@ -182,7 +200,9 @@ const DashboardPage = () => {
                 className="form-control"
                 placeholder="Deskripsi"
                 value={newGenre.deskripsi}
-                onChange={(e) => setNewGenre({ ...newGenre, deskripsi: e.target.value })}
+                onChange={(e) =>
+                  setNewGenre({ ...newGenre, deskripsi: e.target.value })
+                }
               />
             </div>
             <div className="col-md-2 d-flex gap-2">
@@ -206,7 +226,7 @@ const DashboardPage = () => {
         </div>
       </div>
 
-      {/* TABEL GENRE */}
+    
       <div className="card mb-5 shadow-sm">
         <div className="card-header fw-bold bg-light">Daftar Genre</div>
         <div className="card-body">
@@ -229,10 +249,16 @@ const DashboardPage = () => {
                     <td>{g.nama}</td>
                     <td>{g.deskripsi}</td>
                     <td>
-                      <button className="btn btn-warning btn-sm me-2" onClick={() => handleEditGenre(g)}>
+                      <button
+                        className="btn btn-warning btn-sm me-2"
+                        onClick={() => handleEditGenre(g)}
+                      >
                         Edit
                       </button>
-                      <button className="btn btn-danger btn-sm" onClick={() => handleDeleteGenre(g.id)}>
+                      <button
+                        className="btn btn-danger btn-sm"
+                        onClick={() => handleDeleteGenre(g.id)}
+                      >
                         Hapus
                       </button>
                     </td>
@@ -244,9 +270,9 @@ const DashboardPage = () => {
         </div>
       </div>
 
-      {/* FORM AUTHOR */}
+      
       <div className="card mb-4 shadow-sm">
-        <div className="card-header fw-bold bg-success text-white">
+        <div className="card-header bg-success text-white fw-bold">
           {editingAuthorId ? "✏️ Edit Author" : "➕ Tambah Author Baru"}
         </div>
         <div className="card-body">
@@ -257,7 +283,9 @@ const DashboardPage = () => {
                 className="form-control"
                 placeholder="Nama Author"
                 value={newAuthor.name}
-                onChange={(e) => setNewAuthor({ ...newAuthor, name: e.target.value })}
+                onChange={(e) =>
+                  setNewAuthor({ ...newAuthor, name: e.target.value })
+                }
                 required
               />
             </div>
@@ -267,7 +295,9 @@ const DashboardPage = () => {
                 className="form-control"
                 placeholder="Bio Author"
                 value={newAuthor.bio}
-                onChange={(e) => setNewAuthor({ ...newAuthor, bio: e.target.value })}
+                onChange={(e) =>
+                  setNewAuthor({ ...newAuthor, bio: e.target.value })
+                }
               />
             </div>
             <div className="col-md-2">
@@ -304,24 +334,37 @@ const DashboardPage = () => {
               )}
             </div>
           </form>
+
+        
           {preview && (
-            <img
-              src={preview}
-              alt="Preview"
-              style={{ width: "100px", height: "100px", objectFit: "cover", marginTop: "10px", borderRadius: "8px" }}
-            />
+            <div className="mt-3 text-center">
+              <img
+                src={preview}
+                alt="Preview"
+                className="rounded shadow-sm"
+                style={{
+                  width: "120px",
+                  height: "120px",
+                  objectFit: "cover",
+                  borderRadius: "10px",
+                }}
+              />
+              <p className="text-muted mt-1 small">
+                Preview foto yang akan diupload
+              </p>
+            </div>
           )}
         </div>
       </div>
 
-      {/* TABEL AUTHOR */}
+    
       <div className="card mb-5 shadow-sm">
         <div className="card-header fw-bold bg-light">Daftar Author</div>
         <div className="card-body">
           {authors.length === 0 ? (
             <p className="text-muted">Belum ada author.</p>
           ) : (
-            <table className="table table-striped table-hover">
+            <table className="table table-striped table-hover align-middle">
               <thead>
                 <tr>
                   <th>#</th>
@@ -338,21 +381,37 @@ const DashboardPage = () => {
                     <td>
                       {a.photo ? (
                         <img
-                          src={a.photo}
+                          src={
+                            a.photo.startsWith("http")
+                              ? a.photo
+                              : `${import.meta.env.VITE_API_URL}/storage/${a.photo}`
+                          }
                           alt={a.name}
-                          style={{ width: "60px", height: "60px", objectFit: "cover", borderRadius: "8px" }}
+                          className="rounded shadow-sm"
+                          style={{
+                            width: "70px",
+                            height: "70px",
+                            objectFit: "cover",
+                            borderRadius: "10px",
+                          }}
                         />
                       ) : (
-                        <span className="text-muted">Tidak ada</span>
+                        <span className="text-muted small">Tidak ada foto</span>
                       )}
                     </td>
                     <td>{a.name}</td>
                     <td>{a.bio}</td>
                     <td>
-                      <button className="btn btn-warning btn-sm me-2" onClick={() => handleEditAuthor(a)}>
+                      <button
+                        className="btn btn-warning btn-sm me-2"
+                        onClick={() => handleEditAuthor(a)}
+                      >
                         Edit
                       </button>
-                      <button className="btn btn-danger btn-sm" onClick={() => handleDeleteAuthor(a.id)}>
+                      <button
+                        className="btn btn-danger btn-sm"
+                        onClick={() => handleDeleteAuthor(a.id)}
+                      >
                         Hapus
                       </button>
                     </td>

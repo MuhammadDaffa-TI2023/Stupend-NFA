@@ -6,13 +6,13 @@ import ContactPage from "./pages/ContactPage";
 import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 
-// 🔹 Admin Dashboard
+//  Admin Dashboard
 import DashboardPage from "./pages/Admin/DashboardPage";
 
 import books from "./Utils/books";
 import "./App.css";
 
-// 🔹 PrivateRoute untuk admin
+//  PrivateRoute untuk admin
 const AdminRoute = ({ children }) => {
   const user = JSON.parse(localStorage.getItem("user"));
   if (!user || !user.is_admin) {
@@ -67,7 +67,7 @@ function App() {
           </div>
         </header>
 
-        {/* Routing */}
+        
         <Routes>
           <Route path="/" element={<HomePage products={books} />} />
           <Route path="/books" element={<Books products={books} />} />
@@ -87,7 +87,7 @@ function App() {
           />
         </Routes>
 
-        {/* Footer */}
+        
         <footer className="py-3 my-4 border-top">
           <ul className="nav justify-content-center border-bottom pb-3 mb-3">
             <li><NavLink to="/" end className="nav-link px-2">Home</NavLink></li>

@@ -47,9 +47,9 @@ function RegisterPage() {
 
       // Redirect sesuai role
       if (res.data.user.is_admin) {
-        navigate("/admin/genres"); // admin ke dashboard admin
+        navigate("/admin/genres");
       } else {
-        navigate("/home"); // user biasa ke halaman utama
+        navigate("/home"); 
       }
     } catch (error) {
       console.error(error);
